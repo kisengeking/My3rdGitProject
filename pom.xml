@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>My2ndGitProject</artifactId>
+	<artifactId>My3rdGitProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>My2ndGitProject</name>
+	<name>My3rdGitProject</name>
 	<description>Demo project for Spring Boot and Thymeleaf</description>
 	<url/>
 	<licenses>
@@ -53,7 +53,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-    <finalName>app</finalName>
+    <finalName>app3rd</finalName>
 	</build>
 
 </project>
