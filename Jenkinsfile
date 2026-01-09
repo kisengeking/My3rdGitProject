@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    IMAGE_NAME = "kisengeking/my2ndgitproject"
+    IMAGE_NAME = "kisengeking/my3rdgitproject"
     IMAGE_TAG  = "${BUILD_NUMBER}"
   }
 
@@ -49,8 +49,8 @@ pipeline {
     stage('Deploy') {
       steps {
         sh '''
-          docker rm -f springboot-app || true
-          docker run -d -p 8081:8090 --name springboot-app $IMAGE_NAME:latest
+          docker rm -f springboot-app-3rd || true
+          docker run -d -p 8083:8093 --name springboot-app-3rd $IMAGE_NAME:latest
         '''
       }
     }
