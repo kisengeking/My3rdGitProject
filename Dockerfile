@@ -1,5 +1,5 @@
 FROM eclipse-temurin:17-jdk
-WORKDIR /app
-COPY target/app.jar app.jar
-EXPOSE 8090
-ENTRYPOINT ["java","-jar","app.jar"]
+WORKDIR /app3rd
+COPY target/app3rd.jar app3rd.jar
+EXPOSE 8093
+ENTRYPOINT ["java","-jar","app3rd.jar"]
