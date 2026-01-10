@@ -2,6 +2,7 @@ pipeline {
   agent any
 
   stages {
+
     stage('Build') {
       steps {
         sh '''
@@ -11,8 +12,6 @@ pipeline {
       }
     }
 
-
-    stages {
         stage('Docker Build & Push') {
             steps {
                 sh '''
@@ -31,7 +30,6 @@ pipeline {
                 '''
             }
         }
-    }
 
   }
 }
