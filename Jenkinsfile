@@ -1,67 +1,26 @@
 pipeline {
   agent any
 
-  environment {
-    IMAGE_NAME = "kisengeking/my3rdgitproject"
-    IMAGE_TAG  = "${BUILD_NUMBER}"
-  }
-
   stages {
-
     stage('Build') {
       steps {
+        sh 'mvn clean package -DskipTests'
+      }
+    }
+
+    stage('Docker Build & Push') {
+      steps {
         sh '''
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
+        docker build -t kisengeking/springboot-k8s:1.0 .
+        docker push kisengeking/springboot-k8s:1.0
         '''
       }
     }
 
-    stage('Test') {
+    stage('Deploy to Kubernetes') {
       steps {
-        sh './mvnw test'
+        sh 'kubectl apply -f k8s/'
       }
-    }
-
-    stage('Docker Build') {
-      steps {
-        sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
-      }
-    }
-
-    stage('Docker Push') {
-      steps {
-        withCredentials([usernamePassword(
-          credentialsId: 'dockerhub-creds',
-          usernameVariable: 'DOCKER_USER',
-          passwordVariable: 'DOCKER_PASS'
-        )]) {
-          sh '''
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker push $IMAGE_NAME:$IMAGE_TAG
-            docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
-            docker push $IMAGE_NAME:latest
-          '''
-        }
-      }
-    }
-
-    stage('Deploy') {
-      steps {
-        sh '''
-          docker rm -f springboot-app-3rd || true
-          docker run -d -p 8083:8093 --name springboot-app-3rd $IMAGE_NAME:latest
-        '''
-      }
-    }
-  }
-
-  post {
-    success {
-      echo '✅ CI/CD Pipeline completed successfully'
-    }
-    failure {
-      echo '❌ Pipeline failed'
     }
   }
 }
